@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Key Generator</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0b0f19; color: #fff; text-align: center; padding: 40px 20px; }
+        .container { background: #111827; padding: 30px; border-radius: 12px; display: inline-block; box-shadow: 0px 10px 25px rgba(0,0,0,0.5); width: 100%; max-width: 400px; border: 1px solid #1f2937; }
+        h2 { color: #3b82f6; margin-bottom: 20px; }
+        input { width: 90%; padding: 12px; margin: 10px 0; border-radius: 6px; border: 1px solid #374151; background: #1f2937; color: white; text-align: center; font-size: 16px; }
+        button { background: #2563eb; color: white; padding: 12px 24px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; width: 95%; font-size: 16px; margin-top: 10px; }
+        button:hover { background: #1d4ed8; }
+        .result-box { margin-top: 25px; padding: 15px; background: #1f2937; border-radius: 6px; border: 1px dashed #3b82f6; display: none; }
+        .key { font-size: 18px; color: #10b981; font-weight: bold; letter-spacing: 1px; word-break: break-all; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Key Generator Panel</h2>
+    <p style="color: #9ca3af; font-size: 14px;">Masukkan Device ID untuk membuat kunci aktivasi</p>
+    
+    <input type="text" id="deviceId" placeholder="Tempel Device ID di sini">
+    <button onclick="generateKey()">Buat Kunci Akses</button>
+    
+    <div class="result-box" id="resultBox">
+        <span style="color: #9ca3af; font-size: 13px;">Kunci Aktivasi:</span>
+        <div class="key" id="outputKey"></div>
+    </div>
+</div>
+
+<script>
+function generateKey() {
+    let deviceId = document.getElementById("deviceId").value.trim();
+    if(deviceId === "") { 
+        alert("Device ID tidak boleh kosong!"); 
+        return; 
+    }
+    
+    // Kunci rahasia/Salt (Harus sama dengan yang ada di aplikasi Android-mu nanti)
+    let salt = "KODE_RAHASIA_PANEL_2026"; 
+    
+    // Algoritma Enkripsi Sederhana (Menggabungkan ID + teks rahasia lalu di-encode ke Base64)
+    let gabungan = deviceId + salt;
+    let hasilEncode = btoa(gabungan);
+    
+    // Ambil beberapa karakter saja agar tidak kepanjangan (misal 12 karakter depan) dan buat jadi huruf kapital
+    let finalKey = "ACT-" + hasilEncode.substring(3, 15).toUpperCase();
+    
+    // Tampilkan hasil
+    document.getElementById("outputKey").innerText = finalKey;
+    document.getElementById("resultBox").style.display = "block";
+}
+</script>
+
+</body>
+</html>
